@@ -1,57 +1,42 @@
-CFLAGS = -I.
-CFLAGS += -g
-#CFLAGS += -pg
-CFLAGS += -Wall
-CFLAGS += --pedantic
-CFLAGS += -O9
-#CFLAGS += -DBLISS_DEBUG
-CFLAGS += -fPIC
-
 SRCS = defs.cc graph.cc partition.cc orbit.cc uintseqhash.cc heap.cc
-SRCS += timer.cc utils.cc bliss_C.cc
+SRCS += timer.cc utils.cc bliss_C.cc bliss.cc
 
 OBJS = $(addsuffix .o, $(basename $(SRCS)))
 
-GMPOBJS = $(addsuffix g,  $(OBJS))
+CLEAN_TARGETS = bliss.exe bliss $(OBJS)
 
-LIB =
-#LIB += /usr/lib/ccmalloc.o -ldl
+ifeq ($(OS),Windows_NT)
+	CFLAGS = /EHsc
+	CC = cl
+	LINK = link
 
-CC = g++
-RANLIB = ranlib
-AR = ar
-BLISSLIB = libbliss.a
+	COMPILE_CMD = $(CC) $(CFLAGS) -c -o $@ $<
+	LINK_CMD = $(LINK) /Out:bliss.exe $(OBJS)
+	CLEAN_CMD = del $(CLEAN_TARGETS) 2>NUL
+else
+	CFLAGS = -I.
+	CFLAGS += -g
+	CFLAGS += -Wall
+	CFLAGS += --pedantic
+	CFLAGS += -O9
+	CFLAGS += -fPIC
+	CC = g++
+	LINK = g++
 
-gmp:	LIB += -lgmp
-gmp:	CFLAGS += -DBLISS_USE_GMP
+	COMPILE_CMD = $(CC) $(CFLAGS) -c -o $@ $<
+	LINK_CMD = $(LINK) $(CFLAGS) -o bliss $(OBJS)
+	CLEAN_CMD = rm -f $(CLEAN_TARGETS)
+endif
 
-normal:	bliss
-gmp:	bliss_gmp
+all:: bliss
 
+%.o:	%.cc
+	$(COMPILE_CMD)
 
-all:: lib bliss
-
-%.o %.og:	%.cc
-	$(CC) $(CFLAGS) -c -o $@ $<
-
-lib: $(OBJS)
-	rm -f $(BLISSLIB)
-	$(AR) cr $(BLISSLIB) $(OBJS)
-	$(RANLIB) $(BLISSLIB)
-
-lib_gmp: $(GMPOBJS)
-	rm -f $(BLISSLIB)
-	$(AR) cr $(BLISSLIB) $(GMPOBJS)
-	$(RANLIB) $(BLISSLIB)
-
-bliss: bliss.o lib $(OBJS)
-	$(CC) $(CFLAGS) -o bliss bliss.o $(OBJS) $(LIB)
-
-bliss_gmp: bliss.og lib_gmp $(GMPOBJS)
-	$(CC) $(CFLAGS) -o bliss bliss.og $(GMPOBJS) $(LIB)
-
+bliss: $(OBJS)
+	$(LINK_CMD)
 
 clean:
-	rm -f bliss $(BLISSLIB) $(OBJS) bliss.o $(GMPOBJS) bliss.og
+	$(CLEAN_CMD)
 
 # DO NOT DELETE
