@@ -1,5 +1,4 @@
-#include <unistd.h>
-#include <sys/times.h>
+#include <chrono>
 #include "timer.hh"
 
 /*
@@ -23,8 +22,6 @@
 
 namespace bliss {
 
-static const double numTicksPerSec = (double)(sysconf(_SC_CLK_TCK));
-
 Timer::Timer()
 {
   reset();
@@ -32,24 +29,17 @@ Timer::Timer()
 
 void Timer::reset()
 {
-  struct tms clkticks;
-
-  times(&clkticks);
-  start_time =
-    ((double) clkticks.tms_utime + (double) clkticks.tms_stime) /
-    numTicksPerSec;
+  start_time = std::chrono::steady_clock::now();
 }
 
 
 double Timer::get_duration()
 {
-  struct tms clkticks;
+  auto intermediate = std::chrono::steady_clock::now();
 
-  times(&clkticks);
-  double intermediate = 
-    ((double) clkticks.tms_utime + (double) clkticks.tms_stime) /
-    numTicksPerSec;
-  return intermediate - start_time;
+  return std::chrono::duration_cast
+    <std::chrono::duration<double, std::ratio<1>>>
+    (intermediate - start_time).count();
 }
 
 } // namespace bliss

@@ -4,6 +4,7 @@
 #include <set>
 #include <list>
 #include <algorithm>
+#include <ciso646>
 
 #include "defs.hh"
 #include "timer.hh"

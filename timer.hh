@@ -20,16 +20,18 @@
   along with bliss.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <chrono>
+
 namespace bliss {
 
 /** \internal
- * \brief A very simple wrapper class for measuring elapsed user+system time.
+ * \brief A very simple wrapper class for measuring elapsed time.
  * Not essential if you are using bliss as a library.
  */
 
 class Timer
 {
-  double start_time;
+  std::chrono::time_point<std::chrono::steady_clock> start_time;
 public:
   /**
    * Create and start a new timer.

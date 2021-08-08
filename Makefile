@@ -7,10 +7,11 @@ CLEAN_TARGETS = bliss.exe bliss $(OBJS)
 
 ifeq ($(OS),Windows_NT)
 	CFLAGS = /EHsc
+	CFLAGS += /I.
 	CC = cl
 	LINK = link
 
-	COMPILE_CMD = $(CC) $(CFLAGS) -c -o $@ $<
+	COMPILE_CMD = $(CC) $(CFLAGS) /c $< /Fo$@
 	LINK_CMD = $(LINK) /Out:bliss.exe $(OBJS)
 	CLEAN_CMD = del $(CLEAN_TARGETS) 2>NUL
 else
@@ -30,7 +31,7 @@ endif
 
 all:: bliss
 
-%.o:	%.cc
+%.o: %.cc
 	$(COMPILE_CMD)
 
 bliss: $(OBJS)

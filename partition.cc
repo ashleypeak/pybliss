@@ -1,6 +1,7 @@
 #include <assert.h>
 #include <vector>
 #include <list>
+#include <ciso646>
 #include "graph.hh"
 #include "partition.hh"
 

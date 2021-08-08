@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <limits.h>
+#include <ciso646>
 #include "defs.hh"
 #include "heap.hh"
 

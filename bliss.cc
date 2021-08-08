@@ -2,6 +2,7 @@
 #include <cstdio>
 #include <cstring>
 #include <cassert>
+#include <ciso646>
 #include "defs.hh"
 #include "graph.hh"
 #include "timer.hh"
@@ -53,7 +54,7 @@ usage(FILE* const fp, const char* argv0)
 {
   const char* program_name;
   
-  program_name = rindex(argv0, '/');
+  program_name = strrchr(argv0, '/');
   
   if(program_name) program_name++;
   else program_name = argv0;  
