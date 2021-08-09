@@ -1,0 +1,11 @@
+SRCS_LIB = defs.cc graph.cc partition.cc orbit.cc uintseqhash.cc heap.cc \
+	timer.cc utils.cc bliss_C.cc
+
+SRCS_EXE = $(SRCS_LIB) bliss.cc
+
+OBJS_LIB = $(addsuffix .o, $(basename $(SRCS_LIB)))
+OBJS_EXE = $(addsuffix .o, $(basename $(SRCS_EXE)))
+
+BLISSLIB = libbliss.a
+
+CLEAN_TARGETS = bliss.exe bliss $(OBJS_EXE) $(BLISSLIB)

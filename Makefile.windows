@@ -1,0 +1,19 @@
+include Makefile.common
+
+CFLAGS = /EHsc
+CFLAGS += /I.
+CC = cl
+LINK = link
+
+all:: bliss
+
+%.o: %.cc
+	$(CC) $(CFLAGS) /c $< /Fo$@
+
+bliss: $(OBJS_EXE)
+	$(LINK) /Out:bliss.exe $(OBJS_EXE)
+
+clean:
+	del $(CLEAN_TARGETS) 2>NUL
+
+# DO NOT DELETE
