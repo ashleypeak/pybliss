@@ -1,5 +1,7 @@
 # distutils: language = c++
 
+from cython.operator import dereference
+
 # from Graph cimport vector
 
 # cdef class PyVector:
@@ -34,7 +36,6 @@
 #     cdef int ln = 3
 #     fatal_error(fmt, fl, ln)
 
-# from cython.operator import dereference
 # from Graph cimport UintSeqHash
 
 # cdef class PyUintSeqHash:
@@ -56,7 +57,7 @@
 #         return self.c_uintseqhash.get_value()
 
 #     def compare(self, PyUintSeqHash other):
-#         return self.c_uintseqhash.cmp(dereference(other.c_uintseqhash))
+#         return self.c_uintseqhash._cmp(dereference(other.c_uintseqhash))
 
 # from Graph cimport Timer
 
@@ -118,52 +119,93 @@
 #     def size(self):
 #         return self.c_heap.size()
 
-from Graph cimport KQueue
+# from Graph cimport KQueue
 
-cdef class PyKQueue:
-    cdef KQueue[int] c_kqueue
+# cdef class PyKQueue:
+#     cdef KQueue[int] c_kqueue
 
-    def init(self, const unsigned int N):
-        self.c_kqueue.init(N)
+#     def init(self, const unsigned int N):
+#         self.c_kqueue.init(N)
 
-    def is_empty(self):
-        return self.c_kqueue.is_empty()
+#     def is_empty(self):
+#         return self.c_kqueue.is_empty()
 
-    def size(self):
-        return self.c_kqueue.size()
+#     def size(self):
+#         return self.c_kqueue.size()
 
-    def clear(self):
-        self.c_kqueue.clear()
+#     def clear(self):
+#         self.c_kqueue.clear()
 
-    def front(self):
-        return self.c_kqueue.front()
+#     def front(self):
+#         return self.c_kqueue.front()
 
-    def pop_front(self):
-        return self.c_kqueue.pop_front()
+#     def pop_front(self):
+#         return self.c_kqueue.pop_front()
 
-    def push_front(self, int e):
-        self.c_kqueue.push_front(e)
+#     def push_front(self, int e):
+#         self.c_kqueue.push_front(e)
 
-    def push_back(self, int e):
-        self.c_kqueue.push_back(e)
+#     def push_back(self, int e):
+#         self.c_kqueue.push_back(e)
 
+# from Graph cimport Partition
 
-# from Graph cimport Graph
+# cdef class PyCell:
+#     cdef Partition.Cell c_cell
 
-# cdef class PyGraph:
-#     cdef Graph* c_graph
+#     def is_unit(self):
+#         return self.c_cell.is_unit()
 
-#     def __cinit__(self, int N=0):
-#         self.c_graph = new Graph(N)
+#     @property
+#     def length(self):
+#         return self.c_cell.length
 
-#     def __dealloc__(self):
-#         del self.c_graph
+#     @length.setter
+#     def length(self, length):
+#         self.c_cell.length = length
 
-#     def add_vertex(self, int color=0):
-#         self.c_graph.add_vertex(color)
+# cdef class PyPartition:
+#     cdef Partition c_partition
 
-#     def add_edge(self, int v1, int v2):
-#         self.c_graph.add_edge(v1, v2)
+#     def splitting_queue_add(self, PyCell cell):
+#         self.c_partition.splitting_queue_add(&cell.c_cell)
 
-#     def change_color(self, int vertex, int color):
-#         self.c_graph.change_color(vertex, color)
+#     def splitting_queue_pop(self):
+#         # Obviously an incorrect implementation, but can't be bothered doing it
+#         # properly just for the sake of testing.
+#         return self.c_partition.splitting_queue_pop().length
+
+#     def splitting_queue_is_empty(self):
+#         return self.c_partition.splitting_queue_is_empty()
+
+#     def splitting_queue_clear(self):
+#         return self.c_partition.splitting_queue_clear()
+
+#     def init(self, unsigned int N):
+#         self.c_partition.init(N)
+
+from Graph cimport Graph
+
+cdef class PyGraph:
+    cdef Graph* c_graph
+
+    def __cinit__(self, int N=0):
+        self.c_graph = new Graph(N)
+
+    def __dealloc__(self):
+        del self.c_graph
+
+    def get_nof_vertices(self):
+        return self.c_graph.get_nof_vertices()
+
+    def add_vertex(self, int color=0):
+        self.c_graph.add_vertex(color)
+
+    def add_edge(self, int v1, int v2):
+        self.c_graph.add_edge(v1, v2)
+
+    def change_color(self, int vertex, int color):
+        self.c_graph.change_color(vertex, color)
+
+    def compare(self, PyGraph other):
+        return self.c_graph._cmp(dereference(other.c_graph))

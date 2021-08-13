@@ -19,15 +19,23 @@ cdef extern from "bliss-0.73/defs.hh" namespace "bliss":
     cdef void fatal_error(const char* fmt)
     cdef void fatal_error(const char* fmt, const char*, const int)
 
-# cdef extern from "bliss-0.73/graph.cc":
-#     pass
+cdef extern from "bliss-0.73/graph.cc":
+    pass
 
-# cdef extern from "bliss-0.73/graph.hh" namespace "bliss":
-#     cdef cppclass Graph:
-#         Graph(unsigned int) except +
-#         unsigned int add_vertex(unsigned int color)
-#         void add_edge(unsigned int v1, unsigned int v2)
-#         void change_color(unsigned int vertex, unsigned int color)
+cdef extern from "bliss-0.73/graph.hh" namespace "bliss":
+    cdef cppclass AbstractGraph:
+        AbstractGraph() except +
+    cdef cppclass Graph:
+        Graph(unsigned int) except +
+
+        # const bint is_automorphism(const Vector[unsigned int]& perm)
+        const unsigned int get_nof_vertices()
+        # const Graph* permute(const unsigned int* const perm)
+        # const Graph* permute(const vector[unsigned int]& perm)
+        unsigned int add_vertex(unsigned int color)
+        void add_edge(unsigned int v1, unsigned int v2)
+        void change_color(unsigned int vertex, unsigned int color)
+        int _cmp "cmp" (Graph& other)
 
 cdef extern from "bliss-0.73/heap.cc":
     pass
@@ -69,14 +77,30 @@ cdef extern from "bliss-0.73/orbit.hh" namespace "bliss":
         const unsigned int orbit_size(unsigned int e)
         const unsigned int nof_orbits()
 
-# cdef extern from "bliss-0.73/partition.cc":
-#     pass
+cdef extern from "bliss-0.73/partition.cc":
+    pass
 
-# cdef extern from "bliss-0.73/partition.hh" namespace "bliss":
-#     cdef cppclass Partition:
-#         cppclass Cell:
-#             pass
-#         void init(unsigned int N)
+cdef extern from "bliss-0.73/partition.hh" namespace "bliss":
+    cdef cppclass Partition:
+        cppclass Cell:
+            unsigned int length, first, max_ival, max_ival_count
+            bint in_neighbour_heap
+            Cell* _next "next", prev, next_nonsingleton, prev_nonsingleton
+            unsigned int split_level
+            const bint is_unit()
+            const bint is_in_splitting_queue
+        AbstractGraph* graph
+        KQueue[Cell*] splitting_queue
+        void splitting_queue_add(Cell* const cell)
+        Cell* splitting_queue_pop()
+        const bint splitting_queue_is_empty()
+        void splitting_queue_clear()
+
+        ctypedef unsigned int BacktrackPoint
+        BacktrackPoint set_backtrack_point()
+        void goto_backtrack_point(BacktrackPoint p)
+
+        void init(unsigned int N)
 
 cdef extern from "bliss-0.73/timer.cc":
     pass
@@ -97,7 +121,7 @@ cdef extern from "bliss-0.73/uintseqhash.hh" namespace "bliss":
         # UintSeqHash& operator=(const UintSeqHash& other)
         void update(unsigned int n)
         const unsigned int get_value()
-        int cmp(const UintSeqHash& other)
+        int _cmp "cmp" (const UintSeqHash& other)
 
 cdef extern from "bliss-0.73/utils.cc":
     pass
