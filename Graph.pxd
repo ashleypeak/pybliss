@@ -1,3 +1,5 @@
+from libc.stdio cimport FILE
+
 cdef extern from "<vector>" namespace "std":
     cdef cppclass vector[T]:
         cppclass iterator:
@@ -28,6 +30,8 @@ cdef extern from "bliss-0.73/graph.hh" namespace "bliss":
     cdef cppclass Graph:
         Graph(unsigned int) except +
 
+        void write_dot(FILE* const file_name)
+        void write_dot(const char* const file_name)
         # const bint is_automorphism(const Vector[unsigned int]& perm)
         const unsigned int get_nof_vertices()
         # const Graph* permute(const unsigned int* const perm)
