@@ -6,8 +6,8 @@
 from PyBliss import PyGraph
 
 
-# def report(perm, text = None):
-#     print text, perm
+def report(perm, text=None):
+    print(text, perm)
 
 
 # def traverse1(G, N, R, stats):
@@ -107,7 +107,7 @@ G.add_edge(1, 2)
 G.add_edge(0, 3)
 print("Computing generators for the automorphism group of the graph:")
 G.write_dot_to_stdout()
-# G.find_automorphisms(report, "Aut gen:")
+G.find_automorphisms(report, "Aut gen:")
 # canlab = G.canonical_labeling()
 # print "A canonical labeling of the graph is:",canlab
 # print "The canonical form of the graph is:"

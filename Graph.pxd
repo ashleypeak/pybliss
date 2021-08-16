@@ -25,6 +25,11 @@ cdef extern from "bliss-0.73/graph.cc":
     pass
 
 cdef extern from "bliss-0.73/graph.hh" namespace "bliss":
+    ctypedef void (*hook)(void* user_param,
+                          unsigned int n,
+                          const unsigned int* aut)
+    cdef cppclass Stats:
+        Stats() except +
     cdef cppclass AbstractGraph:
         AbstractGraph() except +
     cdef cppclass Graph:
@@ -40,6 +45,8 @@ cdef extern from "bliss-0.73/graph.hh" namespace "bliss":
         void add_edge(unsigned int v1, unsigned int v2)
         void change_color(unsigned int vertex, unsigned int color)
         int _cmp "cmp" (Graph& other)
+
+        void find_automorphisms(Stats& stats, hook hk, void* hook_user_param)
 
 cdef extern from "bliss-0.73/heap.cc":
     pass
