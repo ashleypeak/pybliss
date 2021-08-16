@@ -2,7 +2,7 @@
 
 from libc.stdio cimport FILE, stdout
 from cython.operator import dereference
-from Graph cimport Graph, Stats
+from Graph cimport vector, Stats, Graph
 
 
 cdef struct ReporterCallback:
@@ -10,24 +10,27 @@ cdef struct ReporterCallback:
     void* argument
 
 
-cdef void _reporter(void* reporter_callback,
-                    const unsigned int N,
-                    const unsigned int* automorphisms):
+cdef void _automorphism_reporter(void* reporter_callback,
+                                 const unsigned int N,
+                                 const unsigned int* automorphism):
     rc = <ReporterCallback*>reporter_callback
     func = <object>rc.function
     argument = <object>rc.argument
 
-    automorphisms_list = [automorphisms[i] for i in range(N)]
+    automorphism_list = [automorphism[i] for i in range(N)]
 
-    func(automorphisms_list, argument)
+    func(automorphism_list, argument)
 
 
 cdef class PyGraph:
     cdef Graph* c_graph
     cdef Stats c_stats
 
-    def __cinit__(self, int N=0):
-        self.c_graph = new Graph(N)
+    def __cinit__(self, int N=0, bint empty=False):
+        if not empty:
+            self.c_graph = new Graph(N)
+        else:
+            self.c_graph = NULL
 
     def __dealloc__(self):
         del self.c_graph
@@ -54,10 +57,10 @@ cdef class PyGraph:
     # def compare(self, PyGraph other):
     #     return self.c_graph._cmp(dereference(other.c_graph))
 
-    def find_automorphisms(self, reporter, reporter_arg):
+    def find_automorphisms(self, object reporter, object reporter_arg):
         # The C++ function bliss::AbstractGraph::find_automorphisms needs a
-        # C++ callback function to send its results to. This is `_reporter`,
-        # defined at the top of this file.
+        # C++ callback function to send its results to. This is
+        # `_automorphism_reporter`, defined at the top of this file.
         # The results then need to be passed to a callback function in the
         # Python script that originally called this function. That callback is
         # the argument `reporter`.
@@ -67,4 +70,27 @@ cdef class PyGraph:
         rc.function = <void*>reporter
         rc.argument = <void*>reporter_arg
 
-        self.c_graph.find_automorphisms(self.c_stats, _reporter, <void*>&rc)
+        self.c_graph.find_automorphisms(
+            self.c_stats, &_automorphism_reporter, <void*>&rc)
+
+    def canonical_labeling(self):
+        cdef const unsigned int* labeling = self.c_graph.canonical_form(
+            self.c_stats, NULL, NULL)
+
+        N = self.c_graph.get_nof_vertices()
+
+        labeling_list = [labeling[i] for i in range(N)]
+        return labeling_list
+
+    def relabel(self, list permutation):
+        cdef vector[unsigned int] c_permutation
+
+        for element in permutation:
+            c_permutation.push_back(element)
+
+        cdef Graph* c_graph_relabeled = self.c_graph.permute(c_permutation)
+
+        graph_relabeled = PyGraph(empty=True)
+        graph_relabeled.c_graph = c_graph_relabeled
+
+        return graph_relabeled

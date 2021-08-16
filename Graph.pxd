@@ -47,6 +47,9 @@ cdef extern from "bliss-0.73/graph.hh" namespace "bliss":
         int _cmp "cmp" (Graph& other)
 
         void find_automorphisms(Stats& stats, hook hk, void* hook_user_param)
+        const unsigned int* canonical_form(
+            Stats& stats, hook hk, void* hook_user_param)
+        const Graph* permute(const vector[unsigned int]& perm)
 
 cdef extern from "bliss-0.73/heap.cc":
     pass

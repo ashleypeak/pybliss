@@ -108,10 +108,10 @@ G.add_edge(0, 3)
 print("Computing generators for the automorphism group of the graph:")
 G.write_dot_to_stdout()
 G.find_automorphisms(report, "Aut gen:")
-# canlab = G.canonical_labeling()
-# print "A canonical labeling of the graph is:",canlab
-# print "The canonical form of the graph is:"
-# G.relabel(canlab).write_dot(sys.stdout)
+canlab = G.canonical_labeling()
+print("A canonical labeling of the graph is:", canlab)
+print("The canonical form of the graph is:")
+G.relabel(canlab).write_dot_to_stdout()
 
 # N = 3
 # stats = Stats()
