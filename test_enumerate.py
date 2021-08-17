@@ -1,9 +1,6 @@
-# import sets
-# import sys
-# sys.path.append('.')
-# sys.path.append('./lib/python')
+import sys
 # import PyBliss
-from PyBliss import PyGraph
+from PyBliss import PyBlissGraph
 
 
 def report(perm, text=None):
@@ -96,22 +93,22 @@ def report(perm, text=None):
 #         self.nof_graphs = 0
 
 # G = PyBliss.Graph()
-G = PyGraph()
-G.add_vertex()
-G.add_vertex()
-G.add_vertex()
-G.add_vertex()
-G.add_edge(0, 1)
-G.add_edge(0, 2)
-G.add_edge(1, 2)
-G.add_edge(0, 3)
+G = PyBlissGraph()
+G.add_vertex('v1')
+G.add_vertex('v2')
+G.add_vertex('v3')
+G.add_vertex('v4')
+G.add_edge('v1', 'v2')
+G.add_edge('v1', 'v3')
+G.add_edge('v2', 'v3')
+G.add_edge('v1', 'v4')
 print("Computing generators for the automorphism group of the graph:")
-G.write_dot_to_stdout()
+G.write_dot(sys.stdout)
 G.find_automorphisms(report, "Aut gen:")
 canlab = G.canonical_labeling()
 print("A canonical labeling of the graph is:", canlab)
 print("The canonical form of the graph is:")
-G.relabel(canlab).write_dot_to_stdout()
+G.relabel(canlab).write_dot(sys.stdout)
 
 # N = 3
 # stats = Stats()
