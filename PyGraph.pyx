@@ -1,8 +1,4 @@
-# distutils: language = c++
-
-from libc.stdio cimport FILE, stdout
-from cython.operator import dereference
-from Graph cimport vector, Stats, Graph
+from Graph cimport Stats, Graph
 
 cdef struct ReporterCallback:
     void* function
@@ -31,27 +27,11 @@ cdef class PyGraph:
     def __dealloc__(self):
         del self.c_graph
 
-    # def write_dot_to_stdout(self):
-    #     cdef FILE* c_file = stdout
-    #     self.c_graph.write_dot(c_file)
-
-    # def write_dot(self, const char* file_name):
-    #     self.c_graph.write_dot(file_name)
-
-    # def get_nof_vertices(self):
-    #     return self.c_graph.get_nof_vertices()
-
     def add_vertex(self, int color=0):
         return self.c_graph.add_vertex(color)
 
     def add_edge(self, int v1, int v2):
         self.c_graph.add_edge(v1, v2)
-
-    # def change_color(self, int vertex, int color):
-    #     self.c_graph.change_color(vertex, color)
-
-    # def compare(self, PyGraph other):
-    #     return self.c_graph._cmp(dereference(other.c_graph))
 
     def find_automorphisms(self, object reporter, object reporter_arg):
         # The C++ function bliss::AbstractGraph::find_automorphisms needs a
