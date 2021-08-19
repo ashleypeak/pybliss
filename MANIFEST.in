@@ -1,0 +1,3 @@
+include src/bliss-0.73/*.hh
+include src/graph.pxd
+include src/_graph.pyx

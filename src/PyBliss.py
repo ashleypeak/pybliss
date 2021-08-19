@@ -1,6 +1,6 @@
 from collections import defaultdict
 
-from PyGraph import PyGraph
+from _graph import _Graph
 
 
 class Graph:
@@ -164,7 +164,7 @@ class Graph:
         file.write("}\n")
 
     def _make_bliss_graph(self):
-        graph = PyGraph()
+        graph = _Graph()
         bliss_map = {}
         bliss_map_inv = {}
         for v, vertex in self._vertices.items():

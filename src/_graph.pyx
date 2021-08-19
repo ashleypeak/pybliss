@@ -1,4 +1,4 @@
-from Graph cimport Stats, Graph
+from graph cimport Stats, Graph
 
 cdef struct ReporterCallback:
     void* function
@@ -17,7 +17,7 @@ cdef void _automorphism_reporter(void* reporter_callback,
     func(automorphism_list, argument)
 
 
-cdef class PyGraph:
+cdef class _Graph:
     cdef Graph* c_graph
     cdef Stats c_stats
 
