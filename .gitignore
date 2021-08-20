@@ -1,2 +1,3 @@
-# Cython-generated translation of src/_graph.pyx
-src/_graph.cpp
+**/*.egg-info/**
+dist/**
+wheelhouse/**

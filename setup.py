@@ -1,6 +1,11 @@
 from setuptools import setup, Extension
+from os import path
 
-USE_CYTHON = True
+wd = path.abspath(path.dirname(__file__))
+with open(path.join(wd, 'README.md'), encoding='utf-8') as f:
+    long_description = f.read()
+
+USE_CYTHON = False
 
 ext = 'pyx' if USE_CYTHON else 'cpp'
 
@@ -28,9 +33,8 @@ setup(
     version='0.73',
     author='Wyatt Peak',
     description="A Python3 implementation PyBliss",
-    long_description='''\
-A reimplementation of Tommi Junttila's PyBliss package. Modified to support
-Python3, and run on both Linux and Windows.''',
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
