@@ -11,7 +11,7 @@ ext = 'pyx' if USE_CYTHON else 'cpp'
 
 source_dir = 'src'
 
-bliss_dir = f'{source_dir}/bliss-0.73'
+bliss_dir = f'{source_dir}/bliss-0.73.1'
 bliss_sources = ['defs.cc', 'graph.cc', 'heap.cc', 'orbit.cc', 'partition.cc',
                  'timer.cc', 'uintseqhash.cc', 'utils.cc']
 bliss_sources = [f'{bliss_dir}/{src}' for src in bliss_sources]
@@ -30,7 +30,7 @@ if USE_CYTHON:
 
 setup(
     name='pybliss-wyattpeak',
-    version='0.73',
+    version='0.1',
     author='Wyatt Peak',
     description="A Python3 implementation PyBliss",
     long_description=long_description,

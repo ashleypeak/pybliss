@@ -1,4 +1,4 @@
-cdef extern from "bliss-0.73/graph.hh" namespace "bliss":
+cdef extern from "bliss-0.73.1/graph.hh" namespace "bliss":
     ctypedef void (*hook)(void* user_param,
                           unsigned int n,
                           const unsigned int* aut)

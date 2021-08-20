@@ -3,25 +3,21 @@
 /* BEGIN: Cython Metadata
 {
     "distutils": {
-        "depends": [
-            "bliss-0.73/graph.hh"
-        ],
         "include_dirs": [
-            ".",
-            "bliss-0.73"
+            "src/bliss-0.73.1"
         ],
         "language": "c++",
         "name": "_graph",
         "sources": [
-            "_graph.pyx",
-            "bliss-0.73/defs.cc",
-            "bliss-0.73/graph.cc",
-            "bliss-0.73/heap.cc",
-            "bliss-0.73/orbit.cc",
-            "bliss-0.73/partition.cc",
-            "bliss-0.73/timer.cc",
-            "bliss-0.73/uintseqhash.cc",
-            "bliss-0.73/utils.cc"
+            "src/_graph.pyx",
+            "src/bliss-0.73.1/defs.cc",
+            "src/bliss-0.73.1/graph.cc",
+            "src/bliss-0.73.1/heap.cc",
+            "src/bliss-0.73.1/orbit.cc",
+            "src/bliss-0.73.1/partition.cc",
+            "src/bliss-0.73.1/timer.cc",
+            "src/bliss-0.73.1/uintseqhash.cc",
+            "src/bliss-0.73.1/utils.cc"
         ]
     },
     "module_name": "_graph"
@@ -661,7 +657,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "new"
 #include "stdexcept"
 #include "typeinfo"
-#include "bliss-0.73/graph.hh"
+#include "bliss-0.73.1/graph.hh"
 #ifdef _OPENMP
 #include <omp.h>
 #endif /* _OPENMP */
@@ -870,7 +866,7 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "_graph.pyx",
+  "src/_graph.pyx",
   "stringsource",
 };
 
