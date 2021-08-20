@@ -1,3 +1,4 @@
+from __future__ import print_function
 import sys
 import PyBliss
 
@@ -20,12 +21,12 @@ def traverse1(G, N, R, stats):
             R.add(canform)
         return
     i = G.nof_vertices()
-    v = f"v{i}"
+    v = "v" + str(i)
     for k in range(pow(2, i)):
         G.add_vertex(v)
         for j in range(i):
             if (k & 0x01) == 1:
-                G.add_edge(v, f"v{j}")
+                G.add_edge(v, "v" + str(j))
             k = k // 2
         traverse1(G, N, R, stats)
         G.del_vertex(v)
@@ -46,12 +47,12 @@ def traverse2(G, N, R, stats):
         stats.nof_graphs += 1
         return
     i = G.nof_vertices()
-    v = f"v{i}"
+    v = "v" + str(i)
     for k in range(pow(2, i)):
         G.add_vertex(v)
         for j in range(i):
             if (k & 0x01) == 1:
-                G.add_edge(v, f"v{j}")
+                G.add_edge(v, "v" + str(j))
             k = k // 2
         traverse2(G, N, R, stats)
         G.del_vertex(v)
@@ -113,16 +114,19 @@ N = 3
 stats = Stats()
 G = PyBliss.Graph()
 traverse1(G, N, set([]), stats)
-print(f"There are {stats.nof_graphs} non-isomorphic graphs with {N} vertices")
+print("There are " + str(stats.nof_graphs) + " non-isomorphic graphs with " +
+      str(N) + " vertices")
 
 N = 5
 stats = Stats()
 G = PyBliss.Graph()
 traverse2(G, N, set([]), stats)
-print(f"There are {stats.nof_graphs} non-isomorphic graphs with {N} vertices")
+print("There are " + str(stats.nof_graphs) + " non-isomorphic graphs with " +
+      str(N) + " vertices")
 
 N = 6
 stats = Stats()
 G = PyBliss.Graph()
 traverse3(G, N, stats)
-print(f"There are {stats.nof_graphs} non-isomorphic graphs with {N} vertices")
+print("There are " + str(stats.nof_graphs) + " non-isomorphic graphs with " +
+      str(N) + " vertices")

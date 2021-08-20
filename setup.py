@@ -2,7 +2,7 @@ from setuptools import setup, Extension
 from os import path
 
 wd = path.abspath(path.dirname(__file__))
-with open(path.join(wd, 'README.md'), encoding='utf-8') as f:
+with open(path.join(wd, 'README.md')) as f:
     long_description = f.read()
 
 USE_CYTHON = False
@@ -11,12 +11,12 @@ ext = 'pyx' if USE_CYTHON else 'cpp'
 
 source_dir = 'src'
 
-bliss_dir = f'{source_dir}/bliss-0.73.1'
+bliss_dir = source_dir + '/bliss-0.73.1'
 bliss_sources = ['defs.cc', 'graph.cc', 'heap.cc', 'orbit.cc', 'partition.cc',
                  'timer.cc', 'uintseqhash.cc', 'utils.cc']
-bliss_sources = [f'{bliss_dir}/{src}' for src in bliss_sources]
+bliss_sources = [bliss_dir + '/' + src for src in bliss_sources]
 
-graph_source = f'{source_dir}/_graph.{ext}'
+graph_source = source_dir + '/_graph.' + ext
 
 extensions = [Extension('_graph',
                         [graph_source] + bliss_sources,
@@ -26,7 +26,7 @@ extensions = [Extension('_graph',
 if USE_CYTHON:
     from Cython.Build import cythonize
     extensions = cythonize(extensions,
-                           compiler_directives={'language_level': 3})
+                           compiler_directives={'language_level': 2})
 
 setup(
     name='pybliss-wyattpeak',

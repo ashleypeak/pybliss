@@ -35,7 +35,7 @@ END: Cython Metadata */
 #else
 #define CYTHON_ABI "0_29_24"
 #define CYTHON_HEX_VERSION 0x001D18F0
-#define CYTHON_FUTURE_DIVISION 1
+#define CYTHON_FUTURE_DIVISION 0
 #include <stddef.h>
 #ifndef offsetof
   #define offsetof(type, member) ( (size_t) & ((type*)0) -> member )
@@ -1327,7 +1327,7 @@ static void __pyx_f_6_graph__automorphism_reporter(void *__pyx_v_reporter_callba
   PyObject *__pyx_v_func = NULL;
   PyObject *__pyx_v_argument = NULL;
   PyObject *__pyx_v_automorphism_list = NULL;
-  unsigned int __pyx_7genexpr__pyx_v_i;
+  unsigned int __pyx_v_i;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   unsigned int __pyx_t_2;
@@ -1382,19 +1382,17 @@ static void __pyx_f_6_graph__automorphism_reporter(void *__pyx_v_reporter_callba
  * 
  *     func(automorphism_list, argument)
  */
-  { /* enter inner scope */
-    __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __pyx_v_N;
-    __pyx_t_3 = __pyx_t_2;
-    for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
-      __pyx_7genexpr__pyx_v_i = __pyx_t_4;
-      __pyx_t_5 = __Pyx_PyInt_From_unsigned_int((__pyx_v_automorphism[__pyx_7genexpr__pyx_v_i])); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 15, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_5))) __PYX_ERR(0, 15, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    }
-  } /* exit inner scope */
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __pyx_v_N;
+  __pyx_t_3 = __pyx_t_2;
+  for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
+    __pyx_v_i = __pyx_t_4;
+    __pyx_t_5 = __Pyx_PyInt_From_unsigned_int((__pyx_v_automorphism[__pyx_v_i])); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 15, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_5))) __PYX_ERR(0, 15, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  }
   __pyx_v_automorphism_list = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
@@ -2043,7 +2041,7 @@ static PyObject *__pyx_pf_6_graph_6_Graph_10canonical_form(struct __pyx_obj_6_gr
   unsigned int const *__pyx_v_labeling;
   unsigned int __pyx_v_N;
   PyObject *__pyx_v_labeling_list = NULL;
-  unsigned int __pyx_8genexpr1__pyx_v_i;
+  unsigned int __pyx_v_i;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2098,19 +2096,17 @@ static PyObject *__pyx_pf_6_graph_6_Graph_10canonical_form(struct __pyx_obj_6_gr
  *         labeling_list = [labeling[i] for i in range(N)]             # <<<<<<<<<<<<<<
  *         return labeling_list
  */
-  { /* enter inner scope */
-    __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 62, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __pyx_v_N;
-    __pyx_t_3 = __pyx_t_2;
-    for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
-      __pyx_8genexpr1__pyx_v_i = __pyx_t_4;
-      __pyx_t_5 = __Pyx_PyInt_From_unsigned_int((__pyx_v_labeling[__pyx_8genexpr1__pyx_v_i])); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 62, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_5))) __PYX_ERR(0, 62, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    }
-  } /* exit inner scope */
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __pyx_v_N;
+  __pyx_t_3 = __pyx_t_2;
+  for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
+    __pyx_v_i = __pyx_t_4;
+    __pyx_t_5 = __Pyx_PyInt_From_unsigned_int((__pyx_v_labeling[__pyx_v_i])); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 62, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_5))) __PYX_ERR(0, 62, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  }
   __pyx_v_labeling_list = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 

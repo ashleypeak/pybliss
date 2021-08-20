@@ -24,7 +24,8 @@ class Graph:
             nnames = [str(neighbour.name) for neighbour in self.edges]
             nnames.sort()
 
-            return f"({self.name} {self.color} {nnames})"
+            s = str(self.name) + " " + str(self.color) + " " + str(nnames)
+            return "(" + s + ")"
 
         def __eq__(self, other):
             if not isinstance(other, Graph._Vertex):
@@ -55,7 +56,7 @@ class Graph:
         for name, vertex in sorted(self._vertices.items()):
             s += str(vertex)
 
-        return f"<{s}>"
+        return "<" + s + ">"
 
     def __eq__(self, other):
         """
@@ -82,6 +83,9 @@ class Graph:
                 return False
 
         return True
+
+    def __ne__(self, other):
+        return not self == other
 
     def nof_vertices(self):
         """
@@ -156,11 +160,12 @@ class Graph:
         """
         file.write("graph g {\n")
         for v, vertex in sorted(self._vertices.items()):
-            file.write(f'"{v}" [label="{vertex.color}"];\n')
+            file.write('"' + str(v) + '" [label=' + str(vertex.color) + '];\n')
         for v, vertex in sorted(self._vertices.items()):
             for neighbour in vertex.edges:
                 if neighbour.name >= vertex.name:
-                    file.write(f'"{v}" -- "{neighbour.name}";\n')
+                    file.write(
+                        '"' + str(v) + '" -- "' + str(neighbour.name) + '";\n')
         file.write("}\n")
 
     def _make_bliss_graph(self):

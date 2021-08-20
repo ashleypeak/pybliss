@@ -1,6 +1,6 @@
 # PyBliss-wyattpeak
 
-A reimplementation of Tommi Junttila's [PyBliss](http://www.tcs.hut.fi/Software/bliss/) package. Modified to support Python3, and run on both Linux and Windows.
+A reimplementation of Tommi Junttila's [PyBliss](http://www.tcs.hut.fi/Software/bliss/) package. Modified to support both Python 2 and Python 3, and run on both Linux and Windows.
 
 ## Building from source
 
