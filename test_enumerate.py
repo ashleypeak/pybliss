@@ -3,6 +3,41 @@ import sys
 import PyBliss
 
 
+"""
+Running this script should output roughly the following (the ordering of edges
+in the graphs may change, and the canonical labeling may be different from
+system to system, although it should be consistent for a given system):
+
+Computing generators for the automorphism group of the graph:
+graph g {
+"v1" [label=0];
+"v2" [label=0];
+"v3" [label=0];
+"v4" [label=0];
+"v1" -- "v3";
+"v1" -- "v4";
+"v1" -- "v2";
+"v2" -- "v3";
+}
+Aut gen: {'v1': 'v1', 'v2': 'v3', 'v3': 'v2', 'v4': 'v4'}
+A canonical labeling of the graph is: {'v1': 3, 'v2': 2, 'v3': 1, 'v4': 0}
+The canonical form of the graph is:
+graph g {
+"0" [label=0];
+"1" [label=0];
+"2" [label=0];
+"3" [label=0];
+"0" -- "3";
+"1" -- "2";
+"1" -- "3";
+"2" -- "3";
+}
+There are 4 non-isomorphic graphs with 3 vertices
+There are 34 non-isomorphic graphs with 5 vertices
+There are 156 non-isomorphic graphs with 6 vertices
+"""
+
+
 def report(perm, text=None):
     print(text, perm)
 
