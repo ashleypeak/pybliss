@@ -1,6 +1,10 @@
-# PyBliss-wyattpeak
+# PyBliss - a Python wrapper for bliss
 
-A reimplementation of Tommi Junttila's [PyBliss](http://www.tcs.hut.fi/Software/bliss/) package. Modified to support both Python 2 and Python 3, and run on both Linux and Windows.
+**Note**: This is a reimplementation of Tommi Junttila's [PyBliss](http://www.tcs.hut.fi/Software/bliss/) package, modified to support both Python 2 and Python 3, and run on both Linux and Windows.
+
+PyBliss is a Python (http://www.python.org/) wrapper for the bliss graph canonical labeling tool (http://www.tcs.hut.fi/Software/bliss/). The source code of bliss is included in this directory.
+
+For performance critical software, please use the C++ interface of bliss instead of this Python wrapper.
 
 ## Building from source
 
