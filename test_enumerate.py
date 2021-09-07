@@ -1,45 +1,13 @@
 from __future__ import print_function
-import sys
+import unittest
+import io
+
 import PyBliss
 
 
-"""
-Running this script should output roughly the following (the ordering of edges
-in the graphs may change, and the canonical labeling may be different from
-system to system, although it should be consistent for a given system):
-
-Computing generators for the automorphism group of the graph:
-graph g {
-"v1" [label=0];
-"v2" [label=0];
-"v3" [label=0];
-"v4" [label=0];
-"v1" -- "v3";
-"v1" -- "v4";
-"v1" -- "v2";
-"v2" -- "v3";
-}
-Aut gen: {'v1': 'v1', 'v2': 'v3', 'v3': 'v2', 'v4': 'v4'}
-A canonical labeling of the graph is: {'v1': 3, 'v2': 2, 'v3': 1, 'v4': 0}
-The canonical form of the graph is:
-graph g {
-"0" [label=0];
-"1" [label=0];
-"2" [label=0];
-"3" [label=0];
-"0" -- "3";
-"1" -- "2";
-"1" -- "3";
-"2" -- "3";
-}
-There are 4 non-isomorphic graphs with 3 vertices
-There are 34 non-isomorphic graphs with 5 vertices
-There are 156 non-isomorphic graphs with 6 vertices
-"""
-
-
-def report(perm, text=None):
-    print(text, perm)
+class Stats:
+    def __init__(self):
+        self.nof_graphs = 0
 
 
 def traverse1(G, N, R, stats):
@@ -123,45 +91,104 @@ def traverse3(G, N, stats):
         traverse3(child, N, stats)
 
 
-class Stats:
-    def __init__(self):
-        self.nof_graphs = 0
+def get_automorphism_generators(graph):
+    def report(perm, output_list):
+        output_list.append(perm)
+
+    generators = []
+    graph.find_automorphisms(report, generators)
+
+    return generators
 
 
-G = PyBliss.Graph()
-G.add_vertex('v1')
-G.add_vertex('v2')
-G.add_vertex('v3')
-G.add_vertex('v4')
-G.add_edge('v1', 'v2')
-G.add_edge('v1', 'v3')
-G.add_edge('v2', 'v3')
-G.add_edge('v1', 'v4')
-print("Computing generators for the automorphism group of the graph:")
-G.write_dot(sys.stdout)
-G.find_automorphisms(report, "Aut gen:")
-canlab = G.canonical_labeling()
-print("A canonical labeling of the graph is:", canlab)
-print("The canonical form of the graph is:")
-G.relabel(canlab).write_dot(sys.stdout)
+def get_graphviz_dot(graph):
+    output = io.StringIO()
+    graph.write_dot(output)
 
-N = 3
-stats = Stats()
-G = PyBliss.Graph()
-traverse1(G, N, set([]), stats)
-print("There are " + str(stats.nof_graphs) + " non-isomorphic graphs with " +
-      str(N) + " vertices")
+    return output.getvalue()
 
-N = 5
-stats = Stats()
-G = PyBliss.Graph()
-traverse2(G, N, set([]), stats)
-print("There are " + str(stats.nof_graphs) + " non-isomorphic graphs with " +
-      str(N) + " vertices")
 
-N = 6
-stats = Stats()
-G = PyBliss.Graph()
-traverse3(G, N, stats)
-print("There are " + str(stats.nof_graphs) + " non-isomorphic graphs with " +
-      str(N) + " vertices")
+class TestEnumerate(unittest.TestCase):
+    def setUp(self):
+        self.test_graph = PyBliss.Graph()
+        self.test_graph.add_vertex('v1')
+        self.test_graph.add_vertex('v2')
+        self.test_graph.add_vertex('v3')
+        self.test_graph.add_vertex('v4')
+        self.test_graph.add_edge('v1', 'v2')
+        self.test_graph.add_edge('v1', 'v3')
+        self.test_graph.add_edge('v2', 'v3')
+        self.test_graph.add_edge('v1', 'v4')
+
+    def test_graphviz_dot_output(self):
+        output = get_graphviz_dot(self.test_graph)
+
+        # We have to run these assertions independently, rather than checking
+        # that the total output matches a particular string, because the
+        # write_dot() function makes no guarantees about order or nodes/edges.
+        self.assertIn('"v1" [label=0];', output)
+        self.assertIn('"v2" [label=0];', output)
+        self.assertIn('"v3" [label=0];', output)
+        self.assertIn('"v4" [label=0];', output)
+        self.assertIn('"v1" -- "v2";', output)
+        self.assertIn('"v1" -- "v3";', output)
+        self.assertIn('"v1" -- "v4";', output)
+        self.assertIn('"v2" -- "v3";', output)
+
+    def test_automorphism_generators(self):
+        generators = get_automorphism_generators(self.test_graph)
+
+        # The test graph should have just one generator, which swaps nodes 2
+        # and 3.
+        self.assertEqual(len(generators), 1)
+        self.assertEqual(generators[0]['v1'], 'v1')
+        self.assertEqual(generators[0]['v2'], 'v3')
+        self.assertEqual(generators[0]['v3'], 'v2')
+        self.assertEqual(generators[0]['v4'], 'v4')
+
+    def test_canonical_labeling_format(self):
+        # Test that the canonical labelling relabels the graph to zero-indexed
+        # integers.
+        canlab = self.test_graph.canonical_labeling()
+        output = io.StringIO()
+        self.test_graph.relabel(canlab).write_dot(output)
+
+        self.assertEqual(set(canlab.values()), set(range(4)))
+
+    def test_canonical_labeling(self):
+        # Make a second graph which is an automorphism of the first
+        generators = get_automorphism_generators(self.test_graph)
+        graph2 = self.test_graph.relabel(generators[0])
+
+        # Get both canonical labelings
+        canlab1 = self.test_graph.canonical_labeling()
+        canlab2 = graph2.canonical_labeling()
+
+        # Check that equivalent nodes map to the same canonical label
+        for node in canlab1.keys():
+            self.assertEqual(canlab1[node],
+                             canlab2[generators[0][node]])
+
+    def test_traverse1(self):
+        N = 3
+        stats = Stats()
+        G = PyBliss.Graph()
+        traverse1(G, N, set([]), stats)
+
+        self.assertEqual(stats.nof_graphs, 4)
+
+    def test_traverse2(self):
+        N = 5
+        stats = Stats()
+        G = PyBliss.Graph()
+        traverse2(G, N, set([]), stats)
+
+        self.assertEqual(stats.nof_graphs, 34)
+
+    def test_traverse3(self):
+        N = 6
+        stats = Stats()
+        G = PyBliss.Graph()
+        traverse3(G, N, stats)
+
+        self.assertEqual(stats.nof_graphs, 156)
