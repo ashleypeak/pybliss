@@ -65,10 +65,16 @@ If you want to recompile `_graph.pyx` for any reason, you'll need to build with 
 
 ## Testing
 
+In order to run the tests, Python will need to be able to find the PyBliss package, so you'll need to install it first.
+
 Run all tests using:
 
 ```bash
 $ python3 -m unittest discover
 ```
 
-In order to run the tests, Python will need to be able to find the PyBliss package, so you'll need to install it first.
+or
+
+```bash
+$ python2 -m unittest discover
+```

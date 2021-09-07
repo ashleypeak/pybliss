@@ -1,8 +1,13 @@
 from __future__ import print_function
 import unittest
-import io
-
 import PyBliss
+
+try:
+    # Python 2
+    from cStringIO import StringIO
+except ModuleNotFoundError:
+    # Python 3
+    from io import StringIO
 
 
 class Stats:
@@ -102,7 +107,7 @@ def get_automorphism_generators(graph):
 
 
 def get_graphviz_dot(graph):
-    output = io.StringIO()
+    output = StringIO()
     graph.write_dot(output)
 
     return output.getvalue()
@@ -150,10 +155,18 @@ class TestEnumerate(unittest.TestCase):
         # Test that the canonical labelling relabels the graph to zero-indexed
         # integers.
         canlab = self.test_graph.canonical_labeling()
-        output = io.StringIO()
-        self.test_graph.relabel(canlab).write_dot(output)
 
         self.assertEqual(set(canlab.values()), set(range(4)))
+
+        graph_relabeled = self.test_graph.relabel(canlab)
+        output = get_graphviz_dot(graph_relabeled)
+
+        # We can't test the connections because we don't know how the
+        # labelings have changed, but we can test the nodes output correctly.
+        self.assertIn('"0" [label=0];', output)
+        self.assertIn('"1" [label=0];', output)
+        self.assertIn('"2" [label=0];', output)
+        self.assertIn('"3" [label=0];', output)
 
     def test_canonical_labeling(self):
         # Make a second graph which is an automorphism of the first
@@ -164,10 +177,11 @@ class TestEnumerate(unittest.TestCase):
         canlab1 = self.test_graph.canonical_labeling()
         canlab2 = graph2.canonical_labeling()
 
-        # Check that equivalent nodes map to the same canonical label
-        for node in canlab1.keys():
-            self.assertEqual(canlab1[node],
-                             canlab2[generators[0][node]])
+        # Relabel both graphs canonically and get their dot files
+        graph1_canon_dot = get_graphviz_dot(self.test_graph.relabel(canlab1))
+        graph2_canon_dot = get_graphviz_dot(graph2.relabel(canlab2))
+
+        self.assertEqual(graph1_canon_dot, graph2_canon_dot)
 
     def test_traverse1(self):
         N = 3
