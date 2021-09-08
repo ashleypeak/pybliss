@@ -20,7 +20,7 @@
   along with bliss.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <chrono>
+#include <ctime>
 
 namespace bliss {
 
@@ -31,7 +31,7 @@ namespace bliss {
 
 class Timer
 {
-  std::chrono::time_point<std::chrono::steady_clock> start_time;
+  std::clock_t start_time;
 public:
   /**
    * Create and start a new timer.

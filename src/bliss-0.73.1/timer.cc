@@ -1,4 +1,4 @@
-#include <chrono>
+#include <ctime>
 #include "timer.hh"
 
 /*
@@ -29,17 +29,15 @@ Timer::Timer()
 
 void Timer::reset()
 {
-  start_time = std::chrono::steady_clock::now();
+  start_time = std::clock();
 }
 
 
 double Timer::get_duration()
 {
-  auto intermediate = std::chrono::steady_clock::now();
+  std::clock_t intermediate = std::clock();
 
-  return std::chrono::duration_cast
-    <std::chrono::duration<double, std::ratio<1>>>
-    (intermediate - start_time).count();
+  return ((double) intermediate - start_time) / CLOCKS_PER_SEC;
 }
 
 } // namespace bliss
