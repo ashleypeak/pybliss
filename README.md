@@ -12,33 +12,59 @@ For performance critical software, please use the C++ interface of bliss instead
 
 ### Building for your local machine (Linux)
 
+#### Python 3
+
 1. Navigate into the main project directory, there should be a file `setup.py`.
 2. Create a virtual environment:
    `$ python3 -m venv bliss-venv`
-   or
-   `$ virtualenv -p /PATH/TO/PYTHON2 bliss-venv`
 3. Activate the virtual environment:
    `$ source bliss-venv\bin\activate`
 4. Install build:
    `$ pip install build`
 5. Run build:
    `$ python3 -m build`
-   or
+6. Your wheel should now be in `./dist/`.
+
+#### Python 2
+
+1. Navigate into the main project directory, there should be a file `setup.py`.
+2. Create a virtual environment:
+   `$ virtualenv -p /PATH/TO/PYTHON2 bliss-venv`
+3. Activate the virtual environment:
+   `$ source bliss-venv\bin\activate`
+4. Install build:
+   `$ pip install build`
+5. Run build:
    `$ python2 -m build`
 6. Your wheel should now be in `./dist/`.
 
 ### Building for your local machine (Windows)
 
+### Python 3
+
 1. Navigate into the main project directory, there should be a file `setup.py`.
 2. Create a virtual environment:
-   `$ python -m venv bliss-venv`
+   `> python -m venv bliss-venv`
 3. Activate the virtual environment:
-   `$ bliss-venv\Scripts\activate.bat`
+   `> bliss-venv\Scripts\activate.bat`
 4. Install build:
-   `$ pip install build`
+   `> pip install build`
 5. Run build:
-   `$ python3 -m build`
-6. Your wheel should now be in `./dist/`.
+   `> python -m build`
+6. Your wheel should now be in `.\dist\`.
+
+### Python 2
+
+1. Navigate into the main project directory, there should be a file `setup.py`.
+2. Create a virtual environment:
+   `> \PATH\TO\VIRTUALENV.EXE bliss-venv`
+3. Activate the virtual environment:
+   `> bliss-venv\Scripts\activate.bat`
+4. Install build:
+   `> pip install build`
+5. Run build:
+   `> python -m build`
+6. Your wheel should now be in `.\dist\`.
 
 ### Building a manylinux wheel
 
@@ -51,7 +77,7 @@ For performance critical software, please use the C++ interface of bliss instead
    `$ /opt/python/cp38-cp38/bin/python -m build`
 5. You'll now have a single-linux version in `./dist/`.
 6. Use `auditwheel repair` to turn it into a manylinux version. You'll need to specify which manylinux version, you can see the options with `auditwheel repair -h`.
-   `$ auditwheel repair --plat manylinux1_x86_64 dist/pybliss_wyattpeak-0.73-cp38-cp38-linux_x86_64.whl`
+   `$ auditwheel repair --plat manylinux1_x86_64 dist/pybliss_wyattpeak-0.1-cp38-cp38-linux_x86_64.whl`
 7. Your manylinux version is now in `./wheelhouse/`
 
 **Note**: The manylinux Docker image doesn't seem to support Python 2 wheels anymore. I don't use Python 2 so I'm not pursuing it, but if you have a solution let me know.
