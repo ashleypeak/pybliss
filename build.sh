@@ -3,7 +3,7 @@
 # Terminate script if any comand exits with non-zero value
 set -euo pipefail
 
-# ENV_PYTHON2_DIR=./venv/linux/python2/
+# ENV_PYTHON2_DIR=./venv/linux/python2
 
 # echo "Building python2 wheel"
 # source "$ENV_PYTHON2_DIR/bin/activate"
