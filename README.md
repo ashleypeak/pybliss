@@ -8,6 +8,14 @@ PyBliss is a Python (http://www.python.org/) wrapper for the bliss graph canonic
 
 For performance critical software, please use the C++ interface of bliss instead of this Python wrapper.
 
+## Installation
+
+PyBliss can be installed through pip:
+
+```bash
+$ pip install pybliss-wyattpeak
+```
+
 ## Building from source
 
 ### Building for your local machine (Linux)
@@ -77,10 +85,16 @@ For performance critical software, please use the C++ interface of bliss instead
    `$ /opt/python/cp38-cp38/bin/python -m build`
 5. You'll now have a single-linux version in `./dist/`.
 6. Use `auditwheel repair` to turn it into a manylinux version. You'll need to specify which manylinux version, you can see the options with `auditwheel repair -h`.
-   `$ auditwheel repair --plat manylinux1_x86_64 dist/pybliss_wyattpeak-0.1-cp38-cp38-linux_x86_64.whl`
+   `$ auditwheel repair --plat manylinux1_x86_64 dist/pybliss_wyattpeak-0.1.2-cp38-cp38-linux_x86_64.whl`
 7. Your manylinux version is now in `./wheelhouse/`
 
 **Note**: The manylinux Docker image doesn't seem to support Python 2 wheels anymore. I don't use Python 2 so I'm not pursuing it, but if you have a solution let me know.
+
+### Building for PyPI
+
+All wheels necessary for a PyPI update can be built by running `build.sh` in an Ubuntu shell and `build.bat` in a Windows command prompt.
+
+You will need Docker installed on your Ubuntu system, and will need to update the variables `ENV_PYTHON2_DIR` and `ENV_PYTHON3_DIR` in `build.bat` to point to the root directories of the relevant virtual environment folders.
 
 ### Recompiling Cython scripts
 
@@ -89,6 +103,8 @@ If you want to recompile `_graph.pyx` for any reason, you'll need to build with 
 1. In `pyproject.toml`, add the entry `"cython"` to `requires`.
 2. In `setup.py`, change `USE_CYTHON = False` to `USE_CYTHON = True`.
 
+After that, you can follow one of the sets of build instructions above.
+
 ## Testing
 
 In order to run the tests, Python will need to be able to find the PyBliss package, so you'll need to install it first.
@@ -96,11 +112,7 @@ In order to run the tests, Python will need to be able to find the PyBliss packa
 Run all tests using:
 
 ```bash
-$ python3 -m unittest discover
+$ python -m unittest discover
 ```
 
-or
-
-```bash
-$ python2 -m unittest discover
-```
+This will work for both Python 2 and Python 3.
