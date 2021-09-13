@@ -85,7 +85,7 @@ $ pip install pybliss-wyattpeak
    `$ /opt/python/cp38-cp38/bin/python -m build`
 5. You'll now have a single-linux version in `./dist/`.
 6. Use `auditwheel repair` to turn it into a manylinux version. You'll need to specify which manylinux version, you can see the options with `auditwheel repair -h`.
-   `$ auditwheel repair --plat manylinux1_x86_64 dist/pybliss_wyattpeak-0.1.2-cp38-cp38-linux_x86_64.whl`
+   `$ auditwheel repair --plat manylinux1_x86_64 dist/pybliss_wyattpeak-0.1.3-cp38-cp38-linux_x86_64.whl`
 7. Your manylinux version is now in `./wheelhouse/`
 
 **Note**: The manylinux Docker image doesn't seem to support Python 2 wheels anymore. I don't use Python 2 so I'm not pursuing it, but if you have a solution let me know.

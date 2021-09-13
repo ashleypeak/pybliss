@@ -30,11 +30,11 @@ if USE_CYTHON:
 
 setup(
     name='pybliss-wyattpeak',
-    version='0.1.2',
+    version='0.1.3',
     url='https://github.com/wyattpeak/pybliss',
     author='Wyatt Peak',
     author_email='wyatt@wyattpeak.com',
-    description="A Python3 implementation PyBliss",
+    description="A Python wrapper for Bliss",
     long_description=long_description,
     long_description_content_type='text/markdown',
     classifiers=[
