@@ -23,26 +23,26 @@ $ pip install pybliss-wyattpeak
 #### Python 3
 
 1. Navigate into the main project directory, there should be a file `setup.py`.
-2. Create a virtual environment:
+2. Create a virtual environment:\
    `$ python3 -m venv bliss-venv`
-3. Activate the virtual environment:
+3. Activate the virtual environment:\
    `$ source bliss-venv\bin\activate`
-4. Install build:
+4. Install build:\
    `$ pip install build`
-5. Run build:
+5. Run build:\
    `$ python3 -m build`
 6. Your wheel should now be in `./dist/`.
 
 #### Python 2
 
 1. Navigate into the main project directory, there should be a file `setup.py`.
-2. Create a virtual environment:
+2. Create a virtual environment:\
    `$ virtualenv -p /PATH/TO/PYTHON2 bliss-venv`
-3. Activate the virtual environment:
+3. Activate the virtual environment:\
    `$ source bliss-venv\bin\activate`
-4. Install build:
+4. Install build:\
    `$ pip install build`
-5. Run build:
+5. Run build:\
    `$ python2 -m build`
 6. Your wheel should now be in `./dist/`.
 
@@ -51,40 +51,40 @@ $ pip install pybliss-wyattpeak
 ### Python 3
 
 1. Navigate into the main project directory, there should be a file `setup.py`.
-2. Create a virtual environment:
+2. Create a virtual environment:\
    `> python -m venv bliss-venv`
-3. Activate the virtual environment:
+3. Activate the virtual environment:\
    `> bliss-venv\Scripts\activate.bat`
-4. Install build:
+4. Install build:\
    `> pip install build`
-5. Run build:
+5. Run build:\
    `> python -m build`
 6. Your wheel should now be in `.\dist\`.
 
 ### Python 2
 
 1. Navigate into the main project directory, there should be a file `setup.py`.
-2. Create a virtual environment:
+2. Create a virtual environment:\
    `> \PATH\TO\VIRTUALENV.EXE bliss-venv`
-3. Activate the virtual environment:
+3. Activate the virtual environment:\
    `> bliss-venv\Scripts\activate.bat`
-4. Install build:
+4. Install build:\
    `> pip install build`
-5. Run build:
+5. Run build:\
    `> python -m build`
 6. Your wheel should now be in `.\dist\`.
 
 ### Building a manylinux wheel
 
 1. Navigate into the main project directory, there should be a file `setup.py`.
-2. Start the manylinux Docker image, mounting the source directory to `/io`:
+2. Start the manylinux Docker image, mounting the source directory to `/io`:\
    `$ docker run -tiv $(pwd):/io quay.io/pypa/manylinux2010_x86_64 /bin/bash`
-3. Navigate to `/io`:
+3. Navigate to `/io`:\
    `$ cd /io`
-4. Run build (You'll need to specify which version of python to use, we'll use 3.8.):
+4. Run build (You'll need to specify which version of python to use, we'll use 3.8.):\
    `$ /opt/python/cp38-cp38/bin/python -m build`
 5. You'll now have a single-linux version in `./dist/`.
-6. Use `auditwheel repair` to turn it into a manylinux version. You'll need to specify which manylinux version, you can see the options with `auditwheel repair -h`.
+6. Use `auditwheel repair` to turn it into a manylinux version. You'll need to specify which manylinux version, you can see the options with `auditwheel repair -h`.\
    `$ auditwheel repair --plat manylinux1_x86_64 dist/pybliss_wyattpeak-0.1.3-cp38-cp38-linux_x86_64.whl`
 7. Your manylinux version is now in `./wheelhouse/`
 
